@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class Cancion extends Model
 {
@@ -20,4 +22,9 @@ class Cancion extends Model
         'rank',
         'url',
     ];
+
+    public function ListasDeCanciones(): HasMany
+    {
+        return $this->hasMany(ListaCancion::class);
+    }
 }

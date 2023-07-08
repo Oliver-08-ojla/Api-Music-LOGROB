@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+
 
 class ListaReproduccion extends Model
 {
@@ -18,4 +22,14 @@ class ListaReproduccion extends Model
         'nombre',
         'fecha',
     ];
+
+    public function Usuarios(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function Invitaciones(): HasMany
+    {
+        return $this->hasMany(Invitacion::class,'lista_reproduccion_id');
+    }
 }
