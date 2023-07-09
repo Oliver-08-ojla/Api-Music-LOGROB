@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     public function Invitados(): HasMany
     {
-        return $this->hasMany(Invitacion::class,'usuario_invitado_Id');
+        return $this->hasMany(Invitacion::class,'usuario_invitado_id');
     }
 
     public function Invitadores(): HasMany

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('estado')->default(0);
 
-            $table->foreignId('usuario_invitado_Id')
+            $table->foreignId('usuario_invitado_id')
             ->constrained('users')
             ->cascadeOnDelete()
             ->cascadeOnUpdate();

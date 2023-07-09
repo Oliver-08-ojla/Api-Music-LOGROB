@@ -19,7 +19,7 @@ class Invitacion extends Model
     protected $fillable = [
        
         'estado',
-        'usuario_invitado_Id',
+        'usuario_invitado_id',
         'usuario_invitador_id',
         'lista_reproduccion_id',
     ];
@@ -33,7 +33,7 @@ class Invitacion extends Model
 
     public function UsuarioInvitado(): BelongsTo
     {
-        return $this->belongsTo(User::class,'usuario_invitado_Id');
+        return $this->belongsTo(User::class,'usuario_invitado_id');
     }
 
     public function UsuarioInvitador(): BelongsTo
