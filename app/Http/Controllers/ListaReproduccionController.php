@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cancion;
+use App\Models\Invitacion;
 use App\Models\ListaReproduccion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Stmt\Foreach_;
 
 class ListaReproduccionController extends Controller
 {
@@ -72,12 +75,31 @@ class ListaReproduccionController extends Controller
     
     }
 
+    public function ListasAceptadas()
+    {
+        $usuario = Auth::guard('sanctum')->user();
+
+        $listaReproduccion=Invitacion::with('ListaDeReproduccion','UsuarioInvitado','UsuarioInvitador')->where('usuario_invitado_id', '=', $usuario->id)->where('estado','=', 1)->get();
+
+        return response()->json([
+            "ListaReproduccion" => $listaReproduccion,
+        ]);
+    }
+
     /**
      * Display the specified resource.
      */
-    public function show(ListaReproduccion $listaReproduccion)
+    public function show( $id)
     {
-        //
+        $usuario = Auth::guard('sanctum')->user();
+
+        $listaReproduccion=ListaReproduccion::with('Usuarios','ListaCanciones','ListaCanciones.Canciones', 'ListaCanciones.Usuarios')->where('user_id', '=', $usuario->id)->get();
+
+        return response()->json([
+
+            "ListaReproduccion"=>$listaReproduccion
+
+        ]);
     }
 
     /**
@@ -98,6 +120,12 @@ class ListaReproduccionController extends Controller
         $listaReproduccion=ListaReproduccion::findOrFail($id)->where('user_id', '=', $usuario->id)->first();
 
         if($listaReproduccion){
+            $canciones=$listaReproduccion->ListaCanciones;
+
+            foreach ($canciones as $cancion) {
+                Cancion::find($cancion->cancion_id)->delete();
+            }
+          
             $listaReproduccion->delete();
 
             return response()->json([

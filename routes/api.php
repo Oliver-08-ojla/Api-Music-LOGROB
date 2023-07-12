@@ -4,6 +4,7 @@ use App\Http\Controllers\InvitacionController;
 use App\Http\Controllers\ListaCancionController;
 use App\Http\Controllers\ListaReproduccionController;
 use App\Http\Controllers\UserController;
+use App\Models\ListaCancion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,8 +32,11 @@ Route::group(['middleware' => ["auth:sanctum"]], function ()
 
     Route::controller(ListaReproduccionController::class)->group(function () {
         Route::get('auth/verLista', 'index');
+        Route::get('auth/verLista/{id}', 'show');
         Route::post('auth/guardarLista','store');
         Route::delete('auth/eliminarLista/{id}','destroy');
+        Route::get('auth/verListaAceptadas', 'ListasAceptadas');
+
     });
 
     Route::controller(InvitacionController::class)->group(function () {
@@ -41,6 +45,13 @@ Route::group(['middleware' => ["auth:sanctum"]], function ()
         Route::post('auth/crearInvitacion','store');
         Route::delete('auth/eliminarInvitacion/{id}','destroy');
         Route::put('auth/editarInvitacion/{id}','update');
+    });
+
+    Route::controller(ListaCancionController::class)->group(function () {
+       
+        Route::post('auth/agregarCancion','store');
+        Route::delete('auth/eliminarCancion/{id}','destroy');
+        
     });
     
    

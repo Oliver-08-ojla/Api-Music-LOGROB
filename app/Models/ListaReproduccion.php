@@ -32,4 +32,12 @@ class ListaReproduccion extends Model
     {
         return $this->hasMany(Invitacion::class,'lista_reproduccion_id');
     }
+
+    public function ListaCanciones(): HasMany
+    {
+        return $this->hasMany(ListaCancion::class,'lista_reproduccion_id');
+    }
+
+
+
 }
